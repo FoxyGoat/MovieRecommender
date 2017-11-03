@@ -20,6 +20,8 @@ public class Rating implements Comparable<Rating>, Serializable{
 	
 	public Rating(int userID, int movieID, int rating){
 		if(rating > 5 || rating < -5) throw new IllegalArgumentException();
+		if(userID <= 0) throw new IllegalArgumentException();
+		if(movieID <= 0) throw new IllegalArgumentException();
 		this.userID = userID;
 		this.movieID = movieID;
 		this.rating = rating;
@@ -59,7 +61,7 @@ public class Rating implements Comparable<Rating>, Serializable{
 	
 	@Override
 	public String toString(){
-		return userID+"  -  "+movieID+"  =>  "+rating;
+		return "Rating"+ "\nUser ID:"+" " +userID +"\nMovie ID:"+" " +movieID +"\nRating:"+" "+rating+"\n";
 	}
 
 	@Override

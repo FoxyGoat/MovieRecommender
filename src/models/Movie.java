@@ -45,6 +45,23 @@ public class Movie implements Serializable{
 	public List<Genre> getGenres() {
 		return genres;
 	}
+	@Override
+	
+	public boolean equals(Object bob){
+		Movie other;
+		try{
+			 other = (Movie)bob;
+			}
+		catch(Exception e){
+			return false;
+			}
+		
+		if(movieID == other.getMovieID())
+			return true;
+		else{
+			return false;
+			}
+		}
 	
 	@Override
 	public String toString(){

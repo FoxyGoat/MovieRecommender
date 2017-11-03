@@ -15,8 +15,11 @@ public class User implements Serializable{
 	private List<Rating> ratings;
 
 	public User(int userID, String firstName, String lastName, int age, char gender, List<Rating> ratings){
+		if(userID <= 0) throw new IllegalArgumentException();
 		this.userID = userID;
+		if(firstName.isEmpty() || firstName == null) throw new IllegalArgumentException();
 		this.firstName = firstName;
+		if(lastName.isEmpty() || lastName == null) throw new IllegalArgumentException();
 		this.lastName = lastName;
 		this.age = age;
 		this.gender = gender;
@@ -60,6 +63,26 @@ public class User implements Serializable{
 	public void removeRating(int index){
 		ratings.remove(index);
 	}
+	
+	@Override
+	
+	public boolean equals(Object bob){
+		User other;
+		try{
+			 other = (User)bob;
+			}
+		catch(Exception e){
+			return false;
+			}
+		
+		if(userID == other.getUserID())
+			return true;
+		else{
+			return false;
+			}
+		}
+		
+	
 	
 	@Override
 	public String toString(){
