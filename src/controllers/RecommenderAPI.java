@@ -101,6 +101,13 @@ public interface RecommenderAPI {
 	Movie getMovieByYear(String date);
 	
 	/**
+	 * 
+	 * @param movieTitle : String
+	 * @return A list of movies where the movieTitle is a substring of the title of Movie
+	 */
+	List<Movie> searchByMovieTitle(String movieTitleString);
+	
+	/**
 	 * The initial loading of data containing the users, ratings and movies
 	 */
 	void initialLoad();

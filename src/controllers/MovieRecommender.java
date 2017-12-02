@@ -172,6 +172,19 @@ public class MovieRecommender implements RecommenderAPI{
 		}
 		return null;
 	}
+	
+	@Override
+	public List<Movie> searchByMovieTitle(String movieTitleString){
+		List<Movie> foundMovies = new ArrayList<Movie>();
+		
+		for(int i : movies.keySet()){
+			if(movies.get(i).getTitle().toLowerCase().contains(movieTitleString.toLowerCase())){
+				foundMovies.add(movies.get(i));
+			}
+		}
+		
+		return foundMovies;
+	}
 
 	@Override
 	public void initialLoad() {

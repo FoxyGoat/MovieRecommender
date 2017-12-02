@@ -17,7 +17,7 @@ import models.User;
 
 public class Loader {
 	
-	//whatever
+	//whatever I don't care
 	private Map<Integer, List<Rating>> userRatings;
 	private Map<Integer, Genre> movieGenres;
 	

@@ -11,6 +11,7 @@ public class Driver {
 
 	private RecommenderAPI recommender;
 	private Scanner input;
+	private boolean isLoggedIn;
 	
 	public static void main(String[] args){
 		new Driver().run();
@@ -26,12 +27,19 @@ public class Driver {
 		}else{
 			recommender.initialLoad();
 		}
-		
+		isLoggedIn = false;
 		runMenu();
 		
 	}
 	
 	private int displayMenu(){
+		//login;
+		if(!isLoggedIn){
+			System.out.println("\n\nMOVIE RECOMMENDER! - PLEASE INPUT LOGIN INFORMATION");
+			isLoggedIn = login();
+			if(!isLoggedIn) return -1;
+		}
+		//menu;
 		System.out.println("\n\nMOVIE RECOMMENDER! - PLEASE INPUT CHOICE");
 		System.out.println("1) Get All Users");
 		System.out.println("2) Get All Movies");
@@ -40,6 +48,8 @@ public class Driver {
 		System.out.println("5) Add a User");
 		System.out.println("6) Add Rating");
 		System.out.println("7) Get Top Ten Movies");
+		System.out.println("8) Log Out");
+		System.out.println("9) Search for Title");
 		System.out.println("0) Exit");
 		System.out.print("=> ");
 		int response = -1;
@@ -80,6 +90,12 @@ public class Driver {
 			case 7:
 				getTopTen();
 				break;
+			case 8:
+				isLoggedIn = false;
+				break;
+			case 9:
+				searchMovie();
+				break;
 			default:
 				System.out.println("Error");
 				break;
@@ -93,19 +109,19 @@ public class Driver {
 		System.out.println("THE MENU HAS BEEN EXITED, DATA HAS BEEN SAVED TO FILE!");
 		
 	}
-	
+	//displays Users;
 	private void displayUsers(){
 		for(User user : recommender.getUsers()){
 			System.out.println(user);
 		}
 	}
-	
+	//displays Movies;
 	private void displayMovies(){
 		for(Movie movie : recommender.getMovies()){
 			System.out.println(movie);
 		}
 	}
-	
+	//display Ratings;
 	private void displayRatings(){
 		String ratingString = "";
 		for(User user : recommender.getUsers()){
@@ -197,5 +213,54 @@ public class Driver {
 		System.out.println("Could not add Rating - check your UserID or MovieID is valid");
 		
 	}
+
+
+	@SuppressWarnings("resource")
+	private boolean login(){
+		
+
+		    String Username;
+		    String Password;
+		    
+		    //set user and password;
+		    Password = "admin";
+		    Username = "admin";
+		    
+		    Scanner input1 = new Scanner(System.in);
+		    System.out.print("Enter Username : ");
+		    String username = input1.next();
+
+		    Scanner input2 = new Scanner(System.in);
+		    System.out.print("Enter Password : ");
+		    String password = input2.next();
+
+		    if (username.equals(Username) && password.equals(Password)) {
+
+		        System.out.println("\nAccess Granted! Welcome!");
+		    }
+		    // loops if invalid;
+		    else if (username.equals(Username)) {
+		        System.out.println("Invalid Password!");
+		        return false;
+		    } else if (password.equals(Password)) {
+		        System.out.println("Invalid Username!");
+		        return false;
+		    } else {
+		        System.out.println("Invalid Username & Password!");
+		        return false;
+		    }
+		    
+		    return true;
+	}
 	
+	private void searchMovie(){
+		input.nextLine();  //Scanner bug
+		System.out.print("Enter a search title/sub string : ");
+		
+		String movieTitleString = input.nextLine();
+		
+		for(Movie movie : recommender.searchByMovieTitle(movieTitleString)){
+			System.out.println(movie);
+		}
+	}
 }
