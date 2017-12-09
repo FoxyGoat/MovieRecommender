@@ -198,6 +198,43 @@ public class MovieRecommender implements RecommenderAPI{
 		}
 		
 	}
+	
+	@Override
+	public List<Movie> getRecommendations(int userID){
+		List<Movie> recommendations = new ArrayList<Movie>();
+		List<Genre> userLikedGenres = new ArrayList<Genre>();
+		List<Movie> unneeded = new ArrayList<Movie>();
+		
+		User current = users.get(userID);
+		if(current == null) return recommendations;
+		
+		for(Rating rating : current.getRatings()){
+			Movie goodMovie = movies.get(rating.getMovieID());
+			//Movies the current user already rated are not going to be recommended again
+			unneeded.add(goodMovie);
+			
+			if(rating.getRating() < 3) continue;
+			
+			for(Genre genre : goodMovie.getGenres()){
+				if(userLikedGenres.contains(genre)) continue;
+				userLikedGenres.add(genre);
+			}
+		}
+		
+		for(Genre genre : userLikedGenres){
+			for(Movie movie : movies.values()){
+				
+				if(!movie.getGenres().contains(genre)) continue;
+				if(recommendations.contains(movie)) continue;
+				if(unneeded.contains(movie)) continue;
+				
+				recommendations.add(movie);
+				
+			}
+		}
+		
+		return recommendations;
+	}
 
 	@Override
 	public void write() {

@@ -41,16 +41,17 @@ public class Driver {
 		}
 		//menu;
 		System.out.println("\n\nMOVIE RECOMMENDER! - PLEASE INPUT CHOICE");
-		System.out.println("1) Get All Users");
-		System.out.println("2) Get All Movies");
-		System.out.println("3) Get All Ratings");
-		System.out.println("4) Remove a User");
-		System.out.println("5) Add a User");
-		System.out.println("6) Add Rating");
-		System.out.println("7) Get Top Ten Movies");
-		System.out.println("8) Log Out");
-		System.out.println("9) Search for Title");
-		System.out.println("0) Exit");
+		System.out.println(" 1) Get All Users");
+		System.out.println(" 2) Get All Movies");
+		System.out.println(" 3) Get All Ratings");
+		System.out.println(" 4) Remove a User");
+		System.out.println(" 5) Add a User");
+		System.out.println(" 6) Add Rating");
+		System.out.println(" 7) Get Top Ten Movies");
+		System.out.println(" 8) Log Out");
+		System.out.println(" 9) Search for Title");
+		System.out.println(" 10) Get Recommendations For User"); 
+		System.out.println(" 0) Exit");
 		System.out.print("=> ");
 		int response = -1;
 		
@@ -96,6 +97,9 @@ public class Driver {
 			case 9:
 				searchMovie();
 				break;
+			case 10:
+				recommendations();
+				break;
 			default:
 				System.out.println("Error");
 				break;
@@ -133,13 +137,13 @@ public class Driver {
 		}
 		
 	}
-	
+	//get Top Ten;
 	private void getTopTen(){
 		for(Movie movie : recommender.getTopTenMovies()){
 			System.out.println(movie);
 		}
 	}
-	
+	//remove user;
 	private void removeUser(){
 		int userID = -1;
 		try{
@@ -156,7 +160,7 @@ public class Driver {
 		}
 		System.out.println("User removed");
 	}
-
+	//add User;
 	private void addUser(){
 		String firstName, lastName;
 		char gender;
@@ -186,7 +190,7 @@ public class Driver {
 		recommender.addUser(firstName, lastName, age, gender);
 		System.out.println("User added");
 	}
-
+	//add Rating;
 	private void addRating(){
 		int userID, movieID, rating;
 		
@@ -214,35 +218,35 @@ public class Driver {
 		
 	}
 
-
+	//login 
 	@SuppressWarnings("resource")
 	private boolean login(){
 		
-
-		    String Username;
-		    String Password;
+			//admin login;
+		    String AUsername;
+		    String APassword;
 		    
 		    //set user and password;
-		    Password = "admin";
-		    Username = "admin";
+		    APassword = "admin";
+		    AUsername = "admin";
 		    
 		    Scanner input1 = new Scanner(System.in);
 		    System.out.print("Enter Username : ");
-		    String username = input1.next();
+		    String Ausername = input1.next();
 
 		    Scanner input2 = new Scanner(System.in);
 		    System.out.print("Enter Password : ");
-		    String password = input2.next();
+		    String Apassword = input2.next();
 
-		    if (username.equals(Username) && password.equals(Password)) {
+		    if (Ausername.equals(AUsername) && Apassword.equals(APassword)) {
 
 		        System.out.println("\nAccess Granted! Welcome!");
 		    }
 		    // loops if invalid;
-		    else if (username.equals(Username)) {
+		    else if (Ausername.equals(AUsername)) {
 		        System.out.println("Invalid Password!");
 		        return false;
-		    } else if (password.equals(Password)) {
+		    } else if (Apassword.equals(APassword)) {
 		        System.out.println("Invalid Username!");
 		        return false;
 		    } else {
@@ -252,7 +256,7 @@ public class Driver {
 		    
 		    return true;
 	}
-	
+	//search for title
 	private void searchMovie(){
 		input.nextLine();  //Scanner bug
 		System.out.print("Enter a search title/sub string : ");
@@ -260,6 +264,23 @@ public class Driver {
 		String movieTitleString = input.nextLine();
 		
 		for(Movie movie : recommender.searchByMovieTitle(movieTitleString)){
+			System.out.println(movie);
+		}
+	}
+	
+	private void recommendations(){
+		int userID;
+		
+		try{
+			System.out.print("UserID: ");
+			userID = input.nextInt();
+			if(userID < 0) throw new Exception("UserID cannot be negative"); 
+		}catch(Exception e){
+			System.out.println("Please enter a valid Integer");
+			return;
+		}
+		
+		for(Movie movie : recommender.getRecommendations(userID)){
 			System.out.println(movie);
 		}
 	}

@@ -39,6 +39,14 @@ public interface RecommenderAPI {
 	 */
 	boolean addUser(String firstName, String lastName, int age, char gender);
 	
+	
+	/**
+	 * 
+	 * @param userID	:Integer
+	 * @return Return a list of Movie objects as recommendation for given user
+	 */
+	List<Movie> getRecommendations(int userID);
+	
 	/**
 	 * Removes a User by userID
 	 * @param userID	: Integer
